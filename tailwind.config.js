@@ -36,6 +36,6 @@ module.exports = {
     require('daisyui')
   ],
   daisyui: {
-    logs: false
+    themes: ["forest", "bumblebee"],
   }
 }

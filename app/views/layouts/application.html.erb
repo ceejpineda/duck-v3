@@ -8,7 +8,8 @@
 
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_include_tag "application", "data-turbo-track": "reload", defer: true %>
-
+    <script src="https://cdn.jsdelivr.net/npm/theme-change@2.0.2/index.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <script>
       document.documentElement.setAttribute('data-theme', window.localStorage.getItem('theme'))
     </script>
@@ -16,8 +17,10 @@
   </head>
 
   <body>
-    <div class="grid grid-cols-1 gap-6 lg:p-10 xl:grid-cols-3 bg-base-200 text-base-content p-3">
-      <%= render "layouts/header" %>
+      <div id="root" class="flex">
+          <%= render 'partials/nav' %>
+          <%= render 'partials/channels' %>
+      </div>
       <%= yield %>
     </div>
   </body>

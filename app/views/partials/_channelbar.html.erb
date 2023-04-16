@@ -1,0 +1,19 @@
+<div>
+    <% #@rooms.each do |room| %>
+        <% @categories.each do |category| %>
+        <button class="flex items-center mx-4 mt-3 text-gray-400 hover:text-gray-200 border-b border-bg-accent">
+            <h3 class="uppercase tracking-wide font-semibold text-xs"><%=category.name%></h3>
+        </button>
+            <ul class="px-2 py-3">
+            <% category.channels.each do |channel| %>
+                <li class=" px-2 mb-1 hover:text-gray-200 hover:bg-primary">
+                    <a href="/rooms/<%=category.room_id%>/channels/<%=channel.id%>" class="flex items-center">
+                        <span class="text-xl">#</span>
+                        <span class="ml-2">🔔 | <%=channel.name%></span>
+                    </a>
+                </li>
+            <%end%>
+            </ul>
+        <%end%>
+    <%#end%> 
+</div>

@@ -1,0 +1,65 @@
+<div class="flex flex-col min-h-screen w-screen bg-neutral">
+    <%= render 'partials/header' %>
+    <div class="flex-1  flex">
+        <div class=" w-56 flex-none flex flex-col justify-between text-sm">
+            <%= render 'partials/channelbar'%>
+            <div class=" py-7 px-2 flex item-center justify-between border-gray-700 border-t">
+                <div class="flex items-center object-contain">
+                    <a href="#"><img src="/assets/duck2.png" alt="duck" class="w-10"></a>
+                    <div class="text-xs ml-2">
+                        <div class="">CJ</div>
+                        <div class=" text-xs">#2020</div>
+                    </div>
+                </div>
+                <div class="flex items-center">
+                    <a href="#" class="ml-3 hover:text-gray-100"><i class="fa-regular fa-clock"></i></a>
+                    <a href="#" class="ml-3 hover:text-gray-100"><i class="fa-regular fa-clock"></i></a>
+                    <a href="#" class="ml-3 hover:text-gray-100"><i class="fa-regular fa-clock"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class=" flex-1 flex justify-between">
+            <div class="flex-1 flex flex-col justify-between bg-base-200">
+                <%# ALL OF CHAT %>
+                <%= render 'partials/chat' %>
+                <%# CHAT INPUT AREA HERE %>
+                <div class=" h-24 flex items-center mx-3 border-t border-gray-500">
+                    <button class="px-2 py-2 h-10   rounded-s-lg hover:border-r border-gray-600">
+                        <i class="fa-solid fa-circle-plus fa-xl"></i>
+                    </button>
+                    <div class="flex-1">
+                        <%= render partial:'/messages/form', locals: { message: @message, room: @current_room, channel: @current_channel } %>
+                    </div>
+                </div>
+            </div>
+            <%# SIDEBAR AREA HERE %>
+            <div class=" w-56 flex-none px-3 py-3">
+            <h3 class="uppercase tracking-wide font-semibold text-xs  mb-2">Admin - 1</h3>
+            <ul class="mb-6 truncate">
+            <ul class="mb-6">
+                <li class=" px-2 hover:text-gray-200 hover:bg-primary py-1 my-2">
+                    <a href="#" class="flex items-center">
+                        <span><img src="/assets/duck2.png" alt="duck2" class="w-9 h-9 rounded-full"></span>
+                        <span span class="ml-2">duckCJ</span>
+                    </a>
+                </li>
+            </ul>
+            <h3 class="uppercase tracking-wide font-semibold text-xs  mb-2">Online - 6</h3>
+            <ul class="mb-6">
+                <li class=" px-2 hover:text-gray-200 hover:bg-primary py-1 my-2">
+                    <a href="#" class="flex items-center">
+                        <span><img src="/assets/duck2.png" alt="duck2" class="w-9 h-9 rounded-full"></span>
+                        <span span class="ml-2">duckCJ</span>
+                    </a>
+                </li>
+                <li class=" px-2 hover:text-gray-200 hover:bg-primary py-1 my-2">
+                    <a href="#" class="flex items-center">
+                        <span><img src="/assets/duck2.png" alt="duck2" class="w-9 h-9 rounded-full"></span>
+                        <span span class="ml-2">duckCJ</span>
+                    </a>
+                </li>
+            </ul>
+            </div>
+        </div>
+    </div>
+</div>
