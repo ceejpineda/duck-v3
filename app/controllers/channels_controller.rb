@@ -10,15 +10,19 @@ class ChannelsController < ApplicationController
 
   # GET /channels/1 or /channels/1.json
   def show
+    if !session[:user_id]
+      redirect_to '/users'
+    end
     @rooms = Room.all
     @room = Room.new
     @categories = Room.find(params[:room_id]).categories
     @channel = Channel.new
     @messages = Channel.find(params[:id]).messages
     @message = Message.new
-    @current_user = User.first.id #CHANGE THIS
-    @current_room = Room.find(params[:room_id]).id #CHANGE THIS
+    @current_user = User.find(session[:user_id])
+    @current_room = params[:room_id] #CHANGE THIS
     @current_channel = Channel.find(params[:id]).id
+    render 'rooms/index'
   end
 
   # GET /channels/new
@@ -76,6 +80,6 @@ class ChannelsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def channel_params
-      params.require(:channel).permit(:name, :category_id)
+      params.require(:channel).permit(:name, :category_id, :room_id, :channel_id)
     end
 end

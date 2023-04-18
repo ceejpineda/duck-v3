@@ -1,6 +1,6 @@
 <input type="checkbox" id="my-modal" class="modal-toggle" />
-<div class="modal">
-  <div class="modal-box">
+<label for="my-modal" class="modal cursor-pointer">
+  <label class="modal-box relative" for="">
     <%= render partial: "/rooms/form", locals: { room: @room } %>
-  </div>
-</div>
+  </label>
+</label>

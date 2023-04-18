@@ -21,13 +21,14 @@ class MessagesController < ApplicationController
 
   # POST /messages or /messages.json
   def create
-    message_params_clean = message_params.except(:room_id)
-    @message = Message.new(message_params_clean)
+      message_params_clean = message_params.except(:room_id)
+      @message = Message.new(message_params_clean)
 
       if @message.save
-        redirect_to "/rooms/#{message_params[:room_id]}/channels/#{message_params[:channel_id]}"
+        turbo_stream.append "messages", partial: "partials/message", locals: { message: @message }
       else
-        redirect_to "/rooms/#{message_params[:room_id]}/channels/#{message_params[:channel_id]}"
+        render plain: @message.errors.full_messages
+       #redirect_to "/rooms/#{message_params[:room_id]}/channels/#{message_params[:channel_id]}"
       end
   end
 

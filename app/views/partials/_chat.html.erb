@@ -1,18 +1,8 @@
-<div class=" text-sm overflow-y-auto">
-    <% @messages.each do |message|%>
-    <div class="flex mx-6 my-3 py-4 border-t border-gray-700">
-        <div class="flex-none">
-            <a href="#"><img src="/assets/duck2.png" alt="duck" class="w-10 h-10 rounded-full"></a>
-        </div>
-        <div class="ml-5">
-            <div>
-                <a href="#" class="font-semibold hover:underline"><%= message.user.first_name + " " + message.user.last_name %></a>
-                <span class="text-xs text-gray-400 ml-1">Today 4:35PM</span>
-            </div>
-            <div>
-                <div><%=message.content%></div>
-            </div>
-        </div>
-    </div>
-    <%end%>
+<div class="text-sm overflow-y-auto h-96" >
+  <%= turbo_stream_from "messages" %>
+  <div id="messages">
+    <% @messages.each do |message| %>
+      <%= render partial: 'partials/message', locals: { message: message } %>
+    <% end %>
+  </div>
 </div>

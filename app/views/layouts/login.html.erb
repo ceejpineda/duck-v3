@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Duck - Village88</title>
+    <title>Daisyui</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
@@ -13,13 +13,11 @@
     <script>
       document.documentElement.setAttribute('data-theme', window.localStorage.getItem('theme'))
     </script>
-    <%= turbo_include_tags %>
+
   </head>
 
   <body>
-    <div id="root" class="flex">
-        <%= yield %>
-    </div>
+    <%= yield %>
   </body>
 
 </html>
