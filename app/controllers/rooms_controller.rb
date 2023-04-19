@@ -64,8 +64,7 @@ class RoomsController < ApplicationController
         category = Category.create(name: "General", room_id: @room.id)
         announcements.channels.create(name: "Announcements", category_id: category.id)
         category.channels.create(name: "Chat to all", category_id: category.id)
-        format.turbo_stream
-        format.html { redirect_to "/", notice: "Room was successfully created." }
+        turbo_stream.append "rooms", partial: "partials/room", locals: { rooms: @rooms }
       else
         format.html { render :new, status: :unprocessable_entity }
       end
@@ -78,10 +77,8 @@ class RoomsController < ApplicationController
     respond_to do |format|
       if @room.update(room_params)
         format.html { redirect_to room_url(@room), notice: "Room was successfully updated." }
-        format.json { render :show, status: :ok, location: @room }
       else
         format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @room.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -92,7 +89,6 @@ class RoomsController < ApplicationController
 
     respond_to do |format|
       format.html { redirect_to rooms_url, notice: "Room was successfully destroyed." }
-      format.json { head :no_content }
     end
   end
 

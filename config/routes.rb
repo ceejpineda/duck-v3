@@ -1,9 +1,9 @@
 Rails.application.routes.draw do
+  root "rooms#index"
   
   resources :channels
   resources :users
   resources :messages
-  root "rooms#index"
   resources :rooms do
     resources :channels do
       resources :messages

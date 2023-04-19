@@ -1,7 +1,7 @@
 <%= form_with(model: message, data: { turbo: true }, remote: true) do |form| %>
   <%= form.hidden_field :user_id, value: session[:user_id] %>
   <%= form.hidden_field :room_id, value: @current_room %>
-  <%= form.hidden_field :channel_id, value: @current_channel %>
+  <%= form.hidden_field :channel_id, value: @current_channel.id %>
   <%= form.text_area :content, class:"w-full text-sm h-10 px-2 py-2 rounded-e-lg  text-gray-200 focus:outline-primary", style:"resize:none;" %>
   <%= form.submit %>
 <% end %>

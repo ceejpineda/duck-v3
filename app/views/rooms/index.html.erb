@@ -1,11 +1,34 @@
-<%= turbo_stream_from "rooms" %>
-<div id="rooms">
-    <%= render 'partials/nav', rooms: @rooms %>
-</div>
+<%= turbo_stream_from @current_room %>
+    <div class="top-0 left-0 h-screen w-16 m-0 flex flex-col justify-between shadow-lg p-2 bg-base-100">
+        <div class="flex flex-col">
+            <div class="sidebar-icon group bg-neutral-content ">
+                <div>
+                    <%= image_tag("duck.png", :alt => "rss feed") %>
+                </div>
+            </div>
+        <div id="rooms">
+            <div class="border-b border-t border-gray-700 pb-2">
+                <% @rooms.each do |room| %>
+                    <%= render partial:'partials/room', locals: {room: room}%>
+                <% end %>
+            </div>
+        </div>
+            <div class="sidebar-icon group">
+                <label for="my-modal" class="fa-solid fa-circle-plus fa-2xl hover:cursor-pointer"></label>
+                <span class="sidebar-tooltip group-hover:scale-100">Add new Room</span>
+            </div>
+            </div>
+            <div>
+            <div class="sidebar-icon group text-red-500 ">
+                <a href="/logout"><i class="fa-solid fa-power-off fa-2xl"></i></a>
+                <span class="sidebar-tooltip group-hover:scale-100">Log Out</span>
+            </div>
+        </div>
+    </div>
 <%= render 'partials/add_modal' %>
 <div class="flex flex-col min-h-screen w-screen bg-neutral">
     <%= render 'partials/header' %>
-    <div class="flex-1  flex">
+    <div class="flex-1 flex">
         <div class=" w-56 flex-none flex flex-col justify-between text-sm">
             <%= render 'partials/channelbar'%>
             <div class=" py-7 px-2 flex item-center justify-between border-gray-700 border-t">
@@ -23,16 +46,16 @@
                 </div>
             </div>
         </div>
-        <div class=" flex-1 flex justify-between">
-            <div class="flex-1 flex flex-col justify-between bg-base-200">
+        <div class="flex-1 flex justify-between">
+            <div class="flex-1 flex flex-col justify-between bg-base-200 h-[94vh] ">
                 <%# ALL OF CHAT %>
-                <div class="text-sm overflow-y-auto h-96" >
-                    <%= turbo_stream_from "messages" %>
-                    <div id="messages">
-                        <% @messages.each do |message| %>
-                        <%= render partial: 'partials/message', locals: { message: message } %>
-                        <% end %>
-                    </div>
+                <div class="text-sm flex-1 flex flex-col scrollbar overflow-y-auto" >
+                <%= turbo_stream_from "messages_#{@current_channel.id}" %>
+                <div id="messages" class="flex-1">
+                    <% @messages.each do |message| %>
+                    <%= render partial: 'partials/message', locals: { message: message } %>
+                    <% end %>
+                </div>
                 </div>
                 <%# CHAT INPUT AREA HERE %>
                 <div class=" h-24 flex items-center mx-3 border-t border-gray-500">

@@ -12,17 +12,18 @@ class ChannelsController < ApplicationController
   def show
     if !session[:user_id]
       redirect_to '/users'
+    else
+      @rooms = Room.all
+      @room = Room.new
+      @categories = Room.find(params[:room_id]).categories
+      @channel = Channel.new
+      @messages = Channel.find(params[:id]).messages
+      @message = Message.new
+      @current_user = User.find(session[:user_id])
+      @current_room = params[:room_id]
+      @current_channel = Channel.find(params[:id])
+      render 'rooms/index'
     end
-    @rooms = Room.all
-    @room = Room.new
-    @categories = Room.find(params[:room_id]).categories
-    @channel = Channel.new
-    @messages = Channel.find(params[:id]).messages
-    @message = Message.new
-    @current_user = User.find(session[:user_id])
-    @current_room = params[:room_id] #CHANGE THIS
-    @current_channel = Channel.find(params[:id]).id
-    render 'rooms/index'
   end
 
   # GET /channels/new
@@ -41,10 +42,8 @@ class ChannelsController < ApplicationController
     respond_to do |format|
       if @channel.save
         format.html { redirect_to channel_url(@channel), notice: "Channel was successfully created." }
-        format.json { render :show, status: :created, location: @channel }
       else
         format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @channel.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -54,10 +53,8 @@ class ChannelsController < ApplicationController
     respond_to do |format|
       if @channel.update(channel_params)
         format.html { redirect_to channel_url(@channel), notice: "Channel was successfully updated." }
-        format.json { render :show, status: :ok, location: @channel }
       else
         format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @channel.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -68,7 +65,6 @@ class ChannelsController < ApplicationController
 
     respond_to do |format|
       format.html { redirect_to channels_url, notice: "Channel was successfully destroyed." }
-      format.json { head :no_content }
     end
   end
 

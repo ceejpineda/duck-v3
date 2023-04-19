@@ -21,15 +21,16 @@ class MessagesController < ApplicationController
 
   # POST /messages or /messages.json
   def create
-      message_params_clean = message_params.except(:room_id)
-      @message = Message.new(message_params_clean)
-
-      if @message.save
-        turbo_stream.append "messages", partial: "partials/message", locals: { message: @message }
-      else
-        render plain: @message.errors.full_messages
-       #redirect_to "/rooms/#{message_params[:room_id]}/channels/#{message_params[:channel_id]}"
-      end
+    message_params_clean = message_params.except(:room_id)
+    @channel_id = message_params[:channel_id]
+    @room_id = message_params[:channel_id]
+    puts "channel_id: #{@channel_id}"
+    @message = Message.new(message_params_clean)
+    if @message.save
+      turbo_stream.append "messages_#{params[:channel_id]}", partial: 'partials/message', locals: { message: @message }
+    else
+      render plain: @message.errors.full_messages
+    end
   end
 
   # PATCH/PUT /messages/1 or /messages/1.json
@@ -37,10 +38,8 @@ class MessagesController < ApplicationController
     respond_to do |format|
       if @message.update(message_params)
         format.html { redirect_to message_url(@message), notice: "Message was successfully updated." }
-        format.json { render :show, status: :ok, location: @message }
       else
         format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @message.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -51,7 +50,6 @@ class MessagesController < ApplicationController
 
     respond_to do |format|
       format.html { redirect_to messages_url, notice: "Message was successfully destroyed." }
-      format.json { head :no_content }
     end
   end
 
