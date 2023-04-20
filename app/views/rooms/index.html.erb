@@ -33,7 +33,7 @@
             <%= render 'partials/channelbar'%>
             <div class=" py-7 px-2 flex item-center justify-between border-gray-700 border-t">
                 <div class="flex items-center object-contain">
-                    <a href="#"><img src="/assets/duck2.png" alt="duck" class="w-10"></a>
+                    <a href="/users/<%=session[:user_id]%>"><img src="/assets/duck2.png" alt="duck" class="w-10"></a>
                     <div class="text-xs ml-2">
                         <div class=""><%= @current_user.first_name + ' ' + @current_user.last_name  %></div>
                         <div class=" text-xs">#<%=@current_user.employee_code %></div>

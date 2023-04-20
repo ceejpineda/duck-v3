@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_04_16_070147) do
+ActiveRecord::Schema[7.0].define(version: 2023_04_20_071741) do
   create_table "categories", force: :cascade do |t|
     t.string "name"
     t.integer "room_id", null: false
@@ -54,19 +54,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_16_070147) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "users_has_rooms", force: :cascade do |t|
-    t.integer "user_id", null: false
-    t.integer "room_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["room_id"], name: "index_users_has_rooms_on_room_id"
-    t.index ["user_id"], name: "index_users_has_rooms_on_user_id"
-  end
-
   add_foreign_key "categories", "rooms"
   add_foreign_key "channels", "categories"
   add_foreign_key "messages", "channels"
   add_foreign_key "messages", "users"
-  add_foreign_key "users_has_rooms", "rooms"
-  add_foreign_key "users_has_rooms", "users"
 end

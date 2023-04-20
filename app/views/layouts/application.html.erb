@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
-
+    <%= javascript_include_tag 'application' %>
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_include_tag "application", "data-turbo-track": "reload", defer: true %>
     <script src="https://cdn.jsdelivr.net/npm/theme-change@2.0.2/index.js"></script>
@@ -26,6 +26,7 @@
                 idleTime = 0;
             });
         });
+
 
         function timerIncrement() {
             idleTime = idleTime + 1;

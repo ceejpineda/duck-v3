@@ -64,7 +64,8 @@ class RoomsController < ApplicationController
         category = Category.create(name: "General", room_id: @room.id)
         announcements.channels.create(name: "Announcements", category_id: category.id)
         category.channels.create(name: "Chat to all", category_id: category.id)
-        turbo_stream.append "rooms", partial: "partials/room", locals: { rooms: @rooms }
+        #turbo_stream.append "rooms", partial: "partials/room", locals: { rooms: @rooms }
+        redirect_to "/rooms/#{Room.last.id}/channels/#{Channel.last.id}"
       else
         format.html { render :new, status: :unprocessable_entity }
       end
