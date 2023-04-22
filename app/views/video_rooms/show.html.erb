@@ -1,0 +1,10 @@
+<p style="color: green"><%= notice %></p>
+
+<%= render @video_room %>
+
+<div>
+  <%= link_to "Edit this video room", edit_video_room_path(@video_room) %> |
+  <%= link_to "Back to video rooms", video_rooms_path %>
+
+  <%= button_to "Destroy this video room", @video_room, method: :delete %>
+</div>

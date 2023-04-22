@@ -1,0 +1,13 @@
+<div id="<%= dom_id video_room %>">
+  <p>
+    <strong>Name:</strong>
+    <%= video_room.name %>
+  </p>
+
+<div data-controller="vonage"
+      data-vonage-token="<%=@token%>"
+      data-vonage-api-key="<%= Rails.application.credentials.vonage_api_key %>"
+      data.vonage-session-id="<%= @room.session_id %>">
+
+
+</div>

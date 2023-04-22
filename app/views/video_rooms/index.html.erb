@@ -1,0 +1,14 @@
+<p style="color: green"><%= notice %></p>
+
+<h1>Video rooms</h1>
+
+<div id="video_rooms">
+  <% @video_rooms.each do |video_room| %>
+    <%= render video_room %>
+    <p>
+      <%= link_to "Show this video room", video_room %>
+    </p>
+  <% end %>
+</div>
+
+<%= link_to "New video room", new_video_room_path %>

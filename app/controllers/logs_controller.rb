@@ -22,13 +22,13 @@ class LogsController < ApplicationController
     end
 
     def create
-        name = User.find(session[:user_id]).first_name + " " + User.find(session[:user_id]).last_name
+        name = User.find(session[:user_id])
         email = "pinedacj1020@gmail.com"
         message = params[:message]
         puts """EMAIL SENT
         PLEASE CHECK EMAIL
         TEST PUTS ONLY."""
-        ContactMailer.contact_email(name, email, message).deliver_now
+        ContactMailer.contact_email(name, email, message, ).deliver_now
     
         redirect_to "/users/#{session[:user_id]}"
     end

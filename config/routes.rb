@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :video_rooms
   root "rooms#index"
   
   resources :channels
