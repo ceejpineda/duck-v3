@@ -13,6 +13,7 @@ class ChannelsController < ApplicationController
     if !session[:user_id]
       redirect_to '/users'
     else
+      @users = User.where.not(id: session[:user_id])
       @rooms = Room.all
       @room = Room.new
       @categories = Room.find(params[:room_id]).categories

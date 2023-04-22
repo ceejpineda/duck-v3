@@ -34,11 +34,11 @@
                 <div class="p-3 border-t-4 border-green-400 text-primary">
                     <div class="image overflow-hidden">
                         <img class="mx-auto h-auto w-auto"
-                            src="https://lavinephotography.com.au/wp-content/uploads/2022/09/Fam_Kids024-1.jpg"
+                            src="<%= @user.profile_picture_url %>"
                             alt="">
                     </div>
                     <h1 class="font-bold text-xl leading-8 my-1"><%= @user.first_name + " " + @user.last_name%></h1>
-                    <h3 class="text-white font-lg font-semibold leading-6">Associate Software Engineer</h3>
+                    <h3 class="text-white font-lg font-semibold leading-6"><%=@user.position%></h3>
                     <ul class="bg-base-100 hover:text-gray-700 hover:shadow py-2 px-3 mt-3 divide-y rounded shadow-sm">
                         <li class="flex items-center py-3">
                             <span>Status</span>
@@ -81,24 +81,50 @@
                                 <span class="label-text">Time In: </span>
                             </label>
                             <div class="border-4 border-green-400">
-                                <input id="clockInInput"  type="text" disabled class="input input-bordered input-primary w-full max-w-xs" />
+                                <% clock_in_log = @user.logs.where(action: "clockIn").last %>
+                                <% if clock_in_log && clock_in_log.created_at.to_date == Date.today %>
+                                <input id="clockInInput" type="text" disabled class="input input-bordered input-success w-full max-w-xs"
+                                    value="<%= clock_in_log.created_at.strftime('%b %d, %Y %l:%M%p') %>"
+                                />
+                                <% else %>
+                                <input id="clockInInput" type="text" disabled class="input input-bordered w-full max-w-xs" />
+                                <% end %>
                             </div>
                             </div>
                         </div>
                         <div>
-                            <button id="clockOut" class="btn btn-error">Clock Out</button>
+                            <label for="my-modal-clockout" class="btn btn-error">Clock Out</label>
                             <div class="form-control w-full max-w-xs">
                             <label class="label">
                                 <span class="label-text">Time Out: </span>
                             </label>
                             <div class="border-4 border-red-400">
-                                <input id="clockOutInput" type="text" disabled class="input input-bordered input-error w-full max-w-xs" />
+                                <% clock_out_log = @user.logs.where(action: "clockOut").last %>
+                                <% if clock_out_log && clock_out_log.created_at.to_date == Date.today %>
+                                <input id="clockInInput" type="text" disabled class="input input-bordered input-success w-full max-w-xs"
+                                    value="<%= clock_out_log.created_at.strftime('%b %d, %Y %l:%M%p') %>"
+                                />
+                                <% else %>
+                                <input id="clockInInput" type="text" disabled class="input input-bordered w-full max-w-xs" />
+                                <% end %>
                             </div>
                             </div>
                         </div>
                         <div>
-                            <p>Logs</p>
-                            <textarea name="logs" id="" cols="70" rows="5" style="resize:none;" disabled></textarea>                            
+                            <p class="text-xl font-semibold">Logs:</p>
+                            <div class="w-96 p-3 bg-neutral overflow-y-scroll h-56">
+                                <% @user.logs.each do |log| %>
+                                    <% if log.created_at.today? %>
+                                        <% if log.action == "clockIn" %>
+                                        <p><%= "Clocked In: " + log.created_at.strftime("%B %d, %Y %I:%M %p") %></p>
+                                        <% elsif log.action == "clockOut" %>
+                                        <p><%= "Clocked Out: " + log.created_at.strftime("%B %d, %Y %I:%M %p") %></p>
+                                        <% elsif log.action == "inactive" %>
+                                        <p><%= "Inactive: " + log.created_at.strftime("%B %d, %Y %I:%M %p") %></p>
+                                        <% end %>
+                                    <% end %>
+                                <% end %>
+                            </div>                            
                         </div>
                     </div>
                 </div>
@@ -121,37 +147,29 @@
                         <div class="grid md:grid-cols-2 text-sm">
                             <div class="grid grid-cols-2">
                                 <div class="px-4 py-2 font-semibold">First Name</div>
-                                <div class="px-4 py-2">Jane</div>
+                                <div class="px-4 py-2"><%= @user.first_name %></div>
                             </div>
                             <div class="grid grid-cols-2">
                                 <div class="px-4 py-2 font-semibold">Last Name</div>
-                                <div class="px-4 py-2">Doe</div>
+                                <div class="px-4 py-2"><%= @user.last_name %></div>
                             </div>
                             <div class="grid grid-cols-2">
                                 <div class="px-4 py-2 font-semibold">Gender</div>
-                                <div class="px-4 py-2">Female</div>
+                                <div class="px-4 py-2"><%= @user.gender %></div>
                             </div>
                             <div class="grid grid-cols-2">
                                 <div class="px-4 py-2 font-semibold">Contact No.</div>
-                                <div class="px-4 py-2">+11 998001001</div>
+                                <div class="px-4 py-2"><%= @user.contact_number %></div>
                             </div>
                             <div class="grid grid-cols-2">
                                 <div class="px-4 py-2 font-semibold">Current Address</div>
-                                <div class="px-4 py-2">Beech Creek, PA, Pennsylvania</div>
-                            </div>
-                            <div class="grid grid-cols-2">
-                                <div class="px-4 py-2 font-semibold">Permanant Address</div>
-                                <div class="px-4 py-2">Arlington Heights, IL, Illinois</div>
+                                <div class="px-4 py-2"><%= @user.address %></div>
                             </div>
                             <div class="grid grid-cols-2">
                                 <div class="px-4 py-2 font-semibold">Email.</div>
                                 <div class="px-4 py-2">
-                                    <a class="text-blue-800" href="mailto:jane@example.com">jane@example.com</a>
+                                    <a class="text-blue-800" href="mailto:jane@example.com"><%= @user.email %></a>
                                 </div>
-                            </div>
-                            <div class="grid grid-cols-2">
-                                <div class="px-4 py-2 font-semibold">Birthday</div>
-                                <div class="px-4 py-2">Feb 06, 1998</div>
                             </div>
                         </div>
                     </div>
@@ -179,11 +197,26 @@
                     <% @users.each do |user| %>
                         <div class="text-center my-4">
                             <img class="h-16 w-16 rounded-full mx-auto"
-                                src="https://cdn.australianageingagenda.com.au/wp-content/uploads/2015/06/28085920/Phil-Beckett-2-e1435107243361.jpg"
+                                src="<%= user.profile_picture_url %>"
                                 alt="">
                             <a href="/users/<%= user.id %>" class="text-main-color"><%= user.first_name + " " + user.last_name %></a>
                         </div>
                     <%end%>
+                    <input type="checkbox" id="my-modal-clockout" class="modal-toggle" />
+                    <label for="my-modal-clockout" class="modal cursor-pointer">
+                    <label class="modal-box relative" for="">
+                        <p class="text-2xl mb-3">Employee Report for the day</p>
+                            <%= form_with(url: '/contact', method: 'post', html: { id: 'my-form' }) do |form| %>
+
+                            <%= form.text_area :message, class: "textarea textarea-primary", rows: "10", cols: "50" %>
+
+                            <div>
+                                <%= form.submit 'Submit', class: "btn btn-primary", id: "clockOut" %>
+                            </div>
+
+                            <% end %>
+                    </label>
+                    </label>
                     </div>
                 </div>
                 </div>
@@ -192,8 +225,25 @@
         </div>
     </div>
 </div>
+<div class="alert alert-success shadow-lg absolute top-0 hidden">
+  <div>
+    <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current flex-shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+    <span>Success!</span>
+  </div>
+    <button type="button" class="ml-auto alert-close-btn" aria-label="Close">
+      <span aria-hidden="true" class="text-bold">&times;</span>
+    </button>
+</div>
 
 <script>
+const alertCloseBtn = document.querySelector('.alert-close-btn');
+const alert = document.querySelector('.alert');
+alert.classList.add('hidden');
+
+alertCloseBtn.addEventListener('click', () => {
+    alert.classList.add('hidden');
+});
+
 $("#clockIn").on('click', function () {
   var date = new Date();
   var options = { month: 'short', day: 'numeric', year: 'numeric' };
@@ -201,14 +251,33 @@ $("#clockIn").on('click', function () {
   var timeString = date.toLocaleTimeString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true });
   var formattedDate = dateString + ' ' + timeString;
   $("#clockInInput").val(formattedDate);
+  //get request
+    $.ajax({
+        url: '/clock_in',
+        type: 'GET',
+        success: function (data) {
+            alert.classList.remove('hidden');
+        }
+    });
 });
 
-$("#clockOut").on('click', function () {
+$("#clockOut").on('click', function (e) {
+
+e.preventDefault();
   var date = new Date();
   var options = { month: 'short', day: 'numeric', year: 'numeric' };
   var dateString = date.toLocaleDateString('en-US', options);
   var timeString = date.toLocaleTimeString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true });
   var formattedDate = dateString + ' ' + timeString;
   $("#clockOutInput").val(formattedDate);
+    $.ajax({
+    url: '/clock_out',
+    type: 'GET',
+    success: function (data) {
+        alert.classList.remove('hidden');
+        $('#my-form').submit();
+    }
+    });
+
 });
 </script>

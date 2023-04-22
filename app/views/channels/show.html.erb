@@ -10,10 +10,10 @@
             <%= render 'partials/channelbar'%>
             <div class=" py-7 px-2 flex item-center justify-between border-gray-700 border-t">
                 <div class="flex items-center object-contain">
-                    <a href="#"><img src="/assets/duck2.png" alt="duck" class="w-10"></a>
+                    <a href="#"><img src="<%= @current_user.profile_picture_url %>" alt="duck" class="w-10"></a>
                     <div class="text-xs ml-2">
                         <div class=""><%= @current_user.first_name %></div>
-                        <div class=" text-xs">#2020</div>
+                        <div class=" text-xs">#<%= @current_user.employee_code %></div>
                     </div>
                 </div>
                 <div class="flex items-center">
@@ -44,8 +44,8 @@
             <ul class="mb-6">
                 <li class=" px-2 hover:text-gray-200 hover:bg-primary py-1 my-2">
                     <a href="#" class="flex items-center">
-                        <span><img src="/assets/duck2.png" alt="duck2" class="w-9 h-9 rounded-full"></span>
-                        <span span class="ml-2">duckCJ</span>
+                        <span><img src="<%= @current_user.profile_picture_url %>" alt="duck2" class="w-9 h-9 rounded-full"></span>
+                        <span span class="ml-2"><%= @current_user.first_name + " " +@current_user.last_name %></span>
                     </a>
                 </li>
             </ul>

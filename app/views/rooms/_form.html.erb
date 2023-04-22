@@ -1,12 +1,19 @@
 <%= form_with(model: room, remote: true) do |form| %>
   <div>
     <%= form.label :name, style: "display: block" %>
-    <%= form.text_field :name %>
+    <%= form.text_field :name, class:"input input-bordered my-3" %>
   </div>
 
   <div>
-    <%= form.label :icon, style: "display: block" %>
-    <%= form.text_field :icon %>
+  <%= form.label "Type", style: "display: block" %>
+   <%= form.select :icon, options_for_select([
+      ['Art Team', 'pallete'],
+      ['Engineering', 'screwdriver-wrench'],
+      ['Human Resources', 'people-group'],
+      ['Marketing', 'megaphone'],
+      ['Sales', 'cash-register'],
+      ['Support', 'headset'],
+  ]), {}, class: 'select select-bordered w-full max-w-xs my-3' %>
   </div>
 
   <div class="modal-action">

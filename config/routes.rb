@@ -13,4 +13,9 @@ Rails.application.routes.draw do
   #START OF CUSTOM ROUTING
   post '/login', to: 'sessions#create'
   get '/logout', to: 'sessions#destroy'
+  get '/clock_in', to: 'logs#clock_in'
+  get '/clock_out', to: 'logs#clock_out'
+  post '/contact', to: 'logs#create'
+  get '/inactive', to: 'logs#inactive'
+
 end

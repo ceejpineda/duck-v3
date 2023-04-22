@@ -3,6 +3,7 @@
   <head>
     <title>Duck - Village88</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
+     <%= favicon_link_tag 'duck.ico', type: 'image/x-icon' %>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
     <%= javascript_include_tag 'application' %>
@@ -11,6 +12,7 @@
     <script src="https://cdn.jsdelivr.net/npm/theme-change@2.0.2/index.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <meta name="csrf-token" content="<%= form_authenticity_token %>">
     <script>
       document.documentElement.setAttribute('data-theme', window.localStorage.getItem('theme'))
         var idleTime = 0;
@@ -25,15 +27,33 @@
             $(this).keypress(function (e) {
                 idleTime = 0;
             });
+
+            
+            $("#close").on('click', function() {
+              $(".alert-error").addClass("hidden");
+              console.log("hidden")
+            });
         });
 
 
-        function timerIncrement() {
-            idleTime = idleTime + 1;
-            if (idleTime > 30) {
-                window.location.reload();
+      function timerIncrement() {
+        idleTime = idleTime + 1;
+        
+        if (idleTime > 20) {
+          idleTime = 0;
+
+          $.ajax({
+            url: "/inactive",
+            type: "get",
+            success: function(data) {
+              console.log("You have been inactive for 20+ minutes. This has been logged.");
+              $(".alert").removeClass("hidden");
             }
+          });
+
         }
+      }
+
     </script>
     <%= turbo_include_tags %>
 
@@ -43,6 +63,15 @@
   <body>
     <div id="root" class="flex">
         <%= yield %>
+    </div>
+    <div class="alert alert-error shadow-lg hidden absolute top-0 z-10">
+      <div>
+        <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current flex-shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+        <span>You have been inactive for 20+ minutes. This has been logged.</span>
+      </div>
+      <button type="button" class="ml-auto alert-close-btn" id="close" aria-label="Close">
+        X
+      </button>
     </div>
   </body>
 
