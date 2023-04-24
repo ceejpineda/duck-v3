@@ -24,6 +24,7 @@ class MessagesController < ApplicationController
     message_params_clean = message_params.except(:room_id)
     @channel_id = message_params[:channel_id]
     @room_id = message_params[:channel_id]
+    message_params_clean[:content] = params[:content]
     puts "channel_id: #{@channel_id}"
     @message = Message.new(message_params_clean)
     if @message.save

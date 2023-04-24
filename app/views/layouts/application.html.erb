@@ -12,14 +12,46 @@
     <script src="https://cdn.jsdelivr.net/npm/theme-change@2.0.2/index.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script src="https://cdn.tiny.cloud/1/05s6lofrpbtkygatfmvsigcwl4gthekj19seva7mb97jg3od/tinymce/6/tinymce.min.js"></script>
     <script src="https://static.opentok.com/v2/js/opentok.min.js"></script>
     <meta name="csrf-token" content="<%= form_authenticity_token %>">
     <script>
       document.documentElement.setAttribute('data-theme', window.localStorage.getItem('theme'))
         var idleTime = 0;
+          tinymce.init({
+            selector: '.tinymce',
+            plugins: 'lists link image table code emoticons',
+            toolbar: 'image link | bold italic underline strikethrough | alignleft aligncenter alignright alignjustify | numlist bullist | table | code | emoticons',
+            menubar: false,
+            skin: "oxide-dark",
+            content_css: "dark",
+            setup: function (editor) {
+              editor.on('keydown', function (event) {
+                if (event.keyCode === 13) { // Enter key
+                  event.preventDefault();
+                  form.submit();
+                }
+              });
+              editor.on('init', function(args) {
+                editor = args.target;
+
+                editor.on('NodeChange', function(e) {
+                if (e && e.element.nodeName.toLowerCase() == 'img') {
+                    width = e.element.width;
+                    height = e.element.height;
+                    if (width > 300) {
+                        height = height / (width / 300);
+                        width = 300;
+                    }
+                tinyMCE.DOM.setAttribs(e.element, {'width': width, 'height': height});
+                }
+                });
+            });
+            }
+          });
         $(document).ready(function () {
             // Increment the idle time counter every minute.
-            var idleInterval = setInterval(timerIncrement, 60000); // 1 minute
+            var idleInterval = setInterval(timerIncrement, 1000); // 1 minute
 
             // Zero the idle timer on mouse movement.
             $(this).mousemove(function (e) {
@@ -40,7 +72,7 @@
       function timerIncrement() {
         idleTime = idleTime + 1;
         
-        if (idleTime > 20) {
+        if (idleTime > 5000) {
           idleTime = 0;
 
           $.ajax({

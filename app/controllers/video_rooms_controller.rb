@@ -8,9 +8,12 @@ class VideoRoomsController < ApplicationController
 
   # GET /video_rooms/1 or /video_rooms/1.json
   def show
-    current_user = User.find_by(id: session[:user_id])
-    opentok = OpenTok::OpenTok.new Rails.application.credentials.vonage_api_key, Rails.application.credentials.vonage_api_secret
-    @token = opentok.generate_token @video_room.session_id, {name: current_user.first_name}
+    @rooms = Room.all
+    @current_user = User.find_by(id: session[:user_id])
+    vonage_api_key = "47704571"
+    vonage_api_secret = "ebbe6e5bfd47acf7446d4350ec9838ae9983f557"
+    opentok = OpenTok::OpenTok.new vonage_api_key, vonage_api_secret
+    @token = opentok.generate_token @video_room.vonage_session_id, {name: @current_user.first_name}
   end
 
   # GET /video_rooms/new

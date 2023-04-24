@@ -1,13 +1,81 @@
+<style>
+body > .alert{
+  margin-bottom: 0;
+}
+
+
+#video_room_1{
+  padding: 50px;
+  width: 96vw;
+  background-color: #000;
+}
+
+#videos{
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  height: 500px;
+  width: 90vw;
+}
+
+.OT_root{
+  height: 100%;
+  width: 100%;
+}
+</style>
+
 <div id="<%= dom_id video_room %>">
-  <p>
-    <strong>Name:</strong>
-    <%= video_room.name %>
-  </p>
-
-<div data-controller="vonage"
-      data-vonage-token="<%=@token%>"
-      data-vonage-api-key="<%= Rails.application.credentials.vonage_api_key %>"
-      data.vonage-session-id="<%= @room.session_id %>">
-
-
+    <div data-controller="vonage"
+          data-vonage-token="<%=@token%>"
+          data-vonage-api-key="<%= 47704571 %>"
+          data-vonage-session-id="<%= @video_room.vonage_session_id %>"
+          data-vonage-name="<%= @current_user.first_name %>"
+          id="videos">
 </div>
+
+<script>
+  // your JavaScript code here
+  const apiKey = document.querySelector('[data-vonage-api-key]').getAttribute('data-vonage-api-key');
+  const sessionId = document.querySelector('[data-vonage-session-id]').getAttribute('data-vonage-session-id');
+  const token = document.querySelector('[data-vonage-token]').getAttribute('data-vonage-token');
+  const name = document.querySelector('[data-vonage-name]').getAttribute('data-vonage-name');
+
+  let session = null;
+  let publisher = null;
+
+  function initializeSession() {
+    session = OT.initSession(apiKey, sessionId);
+    session.on('streamCreated', streamCreated);
+    publisher = OT.initPublisher('videos', {
+      insertMode: 'append',
+      width: '100%',
+      height: '100%',
+      name: name
+    });
+    session.connect(token, streamConnected);
+  }
+
+  function streamConnected(error) {
+    if (error) {
+      handleError(error);
+    } else {
+      session.publish(publisher, handleError);
+    }
+  }
+
+  function streamCreated(event) {
+    session.subscribe(event.stream, 'videos', {
+      insertMode: 'append',
+      width: '100%',
+      height: '100%'
+    }, handleError);
+  }
+
+  function handleError(error) {
+    if (error) {
+      console.error(error);
+    }
+  }
+
+  initializeSession();
+</script>

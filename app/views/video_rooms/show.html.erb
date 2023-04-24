@@ -1,10 +1,30 @@
+    <div class="top-0 left-0 h-screen w-16 m-0 flex flex-col justify-between shadow-lg p-2 bg-base-100">
+        <div class="flex flex-col">
+            <div class="sidebar-icon group bg-neutral-content ">
+                <div>
+                    <%= image_tag("duck.png", :alt => "rss feed") %>
+                </div>
+            </div>
+        <div id="rooms">
+            <div class="border-b border-t border-gray-700 pb-2">
+                <% @rooms.each do |room| %>
+                    <%= render partial:'partials/room', locals: {room: room}%>
+                <% end %>
+            </div>
+        </div>
+            <div class="sidebar-icon group">
+                <label for="my-modal" class="fa-solid fa-circle-plus fa-2xl hover:cursor-pointer"></label>
+                <span class="sidebar-tooltip group-hover:scale-100">Add new Room</span>
+            </div>
+            </div>
+            <div>
+            <div class="sidebar-icon group text-red-500 ">
+                <a href="/logout"><i class="fa-solid fa-power-off fa-2xl"></i></a>
+                <span class="sidebar-tooltip group-hover:scale-100">Log Out</span>
+            </div>
+        </div>
+    </div>
+<%= render 'partials/add_modal' %>
 <p style="color: green"><%= notice %></p>
 
 <%= render @video_room %>
-
-<div>
-  <%= link_to "Edit this video room", edit_video_room_path(@video_room) %> |
-  <%= link_to "Back to video rooms", video_rooms_path %>
-
-  <%= button_to "Destroy this video room", @video_room, method: :delete %>
-</div>

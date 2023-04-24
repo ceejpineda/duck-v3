@@ -1,10 +1,17 @@
+<style>
+.tox-tinymce {
+  height: 7.9rem !important;
+  width: 100% !important;
+}
+
+</style>
 <%= form_with(model: message, data: { turbo: true }, remote: true, class: "flex items-center messageform") do |form| %>
   <%= form.hidden_field :user_id, value: session[:user_id] %>
   <%= form.hidden_field :room_id, value: @current_room %>
   <%= form.hidden_field :channel_id, value: @current_channel.id %>
-  <%= form.text_area :content, class:"w-full text-sm h-10 px-2 py-2 rounded-e-lg text-gray-200 focus:outline-primary resize-none mr-2", placeholder:"Enter chat here...", id: "message_content" %>
+  <%= text_area_tag :content, "", id: "message_content", class: "tinymce w-full text-sm h-10 px-2 py-2 rounded-e-lg text-gray-200 focus:outline-primary resize-none mr-2", placeholder:"Enter chat here..." %>
   <%= form.submit class:"btn",value:"Send" %>
-<% end %>
+  <% end %>
 
 
 <script>
@@ -14,6 +21,8 @@
   messageContent.addEventListener("keydown", (event) => {
     if (event.key === "Enter" && !event.shiftKey) {
       event.preventDefault();
+      const content = tinymce.activeEditor.getContent();
+      messageContent.value = content;
       form.submit();
       form.reset();
     }

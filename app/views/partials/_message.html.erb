@@ -8,7 +8,7 @@
       <span class="text-xs text-gray-400 ml-1"><%= message.created_at.strftime("%B %d, %Y at %I:%M %p") %></span>
     </div>
     <div>
-      <div><%= message.content %></div>
+      <div><%= raw message.content %></div>
     </div>
   </div>
 </div>
