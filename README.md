@@ -1,14 +1,7 @@
-# README
-Daisy Official Documentation https://daisyui.com/
+# Duck: A company management app
+![image](https://github.com/ceejpineda/duck-v3/assets/57590361/591e2f2b-b11c-4413-b430-790fa76741be)
 
-Demo: https://daisyui.fly.dev/
 
-Current Main Branch: rails 7 + esbuild
-
-Rails 6 + webpacker: https://github.com/mkhairi/rails-daisyui-starter/tree/rails6
-
-This README would normally document whatever steps are necessary to get the
-application up and running.
 
 ```sh
 bundle install
